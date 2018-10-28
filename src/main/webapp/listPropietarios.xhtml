@@ -1,0 +1,56 @@
+    <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+       
+       <style type="text/css">
+            .ui-panel {
+                margin-top:20px
+            }
+
+            .inlineCalendarDemo > .hasDatepicker {
+                padding-left: 50px;
+            }
+        </style>
+           
+             
+       <h:form>
+           <p:messages id="messages" showDetail="true" closable="true">
+                
+            </p:messages>
+
+            <p:panel header="Listado de Propietarios">
+                
+                <h:commandLink>
+                    <h:graphicImage url="resources/imagenes/PDF.png" width="24"/>
+                    <p:dataExporter type="pdf" target="tabla" fileName="listPropietariosPdf"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage url="resources/imagenes/XLS.png" width="24"/>
+                    <p:dataExporter type="xls" target="tabla" fileName="listPropietariosXls"/>
+                </h:commandLink>
+                
+          
+                <p:dataTable  paginator="true" rows="10" emptyMessage="No hay propietarios creados" id="tabla" value="#{propietarioBean.lista}" var="item">
+                    
+                    <h:commandLink>
+                        <h:graphicImage url="./../resources/FONDOS/pdf.png"/>
+                        <p:dataExporter type="pdf" target="tabla" fileName="PdfPropietario"/>    
+                    </h:commandLink>
+                    <p:column  filterBy="#{item.nombre}" headerText="Nombre">
+                        <h:outputText value="#{item.nombre}"></h:outputText>
+                    </p:column>
+                    <p:column headerText="%Comision">
+                        <h:outputText value="#{item.porccomi}" ></h:outputText>
+                    </p:column>                     
+                </p:dataTable>
+                <p:chart type="bar" model="#{propietarioBean.barModel}" style="height:300px"/>          
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

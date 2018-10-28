@@ -1,0 +1,54 @@
+    <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+       
+       <style type="text/css">
+            .ui-panel {
+                margin-top:20px
+            }
+
+            .inlineCalendarDemo > .hasDatepicker {
+                padding-left: 50px;
+            }
+        </style>
+           
+             
+       <h:form>
+           <p:messages id="messages" showDetail="true" closable="true">
+                
+            </p:messages>
+
+            <p:panel header="Listado Propiedades">
+                
+                <h:commandLink>
+                    <h:graphicImage url="resources/imagenes/PDF.png" width="24"/>
+                    <p:dataExporter type="pdf" target="tabla" fileName="InfoPropiedadesPdf"/>
+                </h:commandLink>
+                
+                <h:commandLink>
+                    <h:graphicImage url="resources/imagenes/XLS.png" width="24"/>
+                    <p:dataExporter type="xls" target="tabla" fileName="InfoPropiedadesXls"    />
+                </h:commandLink>
+                
+          
+                  <p:dataTable  paginator="true" rows="10" emptyMessage="No hay propiedades creadas" id="tabla" value="#{propiedadBean.lista}" var="item">
+                    
+                   
+                    <p:column filterBy="#{item.tipo}" headerText="Tipo">
+                        <h:outputText value="#{item.tipo}" ></h:outputText>
+                    </p:column>
+                    <p:column  headerText="Valor">
+                        <h:outputText value="#{item.valor}"></h:outputText>
+                    </p:column>
+                      
+                </p:dataTable>
+                <p:chart type="bar" model="#{propiedadBean.barModel}" style="height:300px" />          
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+       <style type="text/css">
+            .ui-panel {
+                margin-top:20px
+            }
+
+            .inlineCalendarDemo > .hasDatepicker {
+                padding-left: 50px;
+            }
+        </style>
+       
+       <h:form>
+           <p:messages id="messages" showDetail="true" closable="true">
+                
+            </p:messages>
+           <p:panel header="Registro de Comisiones">
+                <f:facet name="footer"> 
+                    <p:commandButton title="Guardar" disabled="#{comisionBean.modoInsert}" icon="fa fa-save Fs16 white" update="tabla,@form" id="btnSave" actionListener="#{comisionBean.save()}" ></p:commandButton>
+                    <p:commandButton title="Actualizar" disabled="#{comisionBean.modoEdit}" icon="fa fa-refresh Fs16 white" update="tabla,@form" id="btnUpdate" actionListener="#{comisionBean.update()}"></p:commandButton>
+                    <p:commandButton title="Eliminar" disabled="#{comisionBean.modoEdit}" icon="fa fa-trash Fs16 white" update="tabla,@form" id="btnDelete" actionListener="#{comisionBean.delete()}"></p:commandButton>
+                </f:facet>
+               
+               <p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;" styleClass="ui-panelgrid-blank">
+                   
+                    <p:outputLabel for="id_liq_comision">Id Comision</p:outputLabel>
+                    <p:inputText id="id_liq_comision" required="true" placeholder="id liq comision" value="#{comisionBean.comision.id_liq_comision}" ></p:inputText>
+
+                    <p:outputLabel for="fecha_registro">Fecha Registro Comision</p:outputLabel>
+                    <p:calendar id="fecha_registro" placeholder="Fecha Registro Comision" value="#{comisionBean.comision.fecha_registro}" showOn="button" ></p:calendar>
+                    
+                    <p:outputLabel for="mes_liquidado">Mes liquidado</p:outputLabel>
+                    <p:calendar id="mes_liquidado" placeholder="Digite Mes Liquidado" value="#{comisionBean.comision.mes_liquidado}" showOn="button" ></p:calendar>
+                    
+                    <p:outputLabel for="num_fac_contrato">num_fac_contrato</p:outputLabel>
+                    <p:inputNumber id="num_fac_contrato" placeholder="Numero Factura Contrato" value="#{comisionBean.comision.num_fac_contrato}"></p:inputNumber>
+                    
+                    <p:outputLabel for="local">local</p:outputLabel>
+                    <p:inputText id="local" placeholder="local" value="#{comisionBean.comision.local}" ></p:inputText>
+                    
+                    <p:outputLabel for="id_propietario">id_propietario</p:outputLabel>
+                    <p:inputText id="id_propietario" placeholder="id_propietario" value="#{comisionBean.comision.id_propietario}" ></p:inputText>
+                    
+                    <p:outputLabel for="comision">comision</p:outputLabel>
+                    <p:inputText id="comision" placeholder="comision" value="#{comisionBean.comision.comision}" ></p:inputText>
+                    
+                    <p:outputLabel for="val_fact_canon_arrendamiento">val_fact_canon_arrendamiento</p:outputLabel>
+                    <p:inputText id="val_fact_canon_arrendamiento" placeholder="val_fact_canon_arrendamiento" value="#{comisionBean.comision.val_fact_canon_arrendamiento}" ></p:inputText>
+                    
+                    <p:outputLabel for="val_comision">val_comision</p:outputLabel>
+                    <p:inputText id="val_comision" placeholder="val_comision" value="#{comisionBean.comision.val_comision}" ></p:inputText>
+                    
+             </p:panelGrid>
+            </p:panel>
+            
+            <p:panel header="Listado de Comision">
+                
+                <h:commandLink>
+                    <h:graphicImage url="resources/imagenes/PDF.png" />
+                    <p:dataExporter type="pdf" target="tabla" fileName="ComisionPdf"/>
+                </h:commandLink>
+
+                <h:commandLink>
+                    <h:graphicImage url="resources/imagenes/XLS.png" />
+                    <p:dataExporter type="xls" target="tabla" fileName="ComisionXls"/>
+                </h:commandLink>
+                
+                <p:dataTable  paginator="true" rows="10" emptyMessage="No hay comisiones creadas" id="tabla" value="#{comisionBean.lista}" var="item">
+                    
+                    <p:column sortBy="#{item.id_liq_comision}" headerText="id_comision">
+                        <h:outputText value="#{item.id_liq_comision}"></h:outputText>
+                    </p:column>
+                    <p:column sortBy="#{item.fecha_registro}" headerText="fecha_registro">
+                        <h:outputText value="#{item.fecha_registro}"></h:outputText>
+                    </p:column>
+                    <p:column  filterBy="#{item.mes_liquidado}" headerText="mes_liquidado">
+                        <h:outputText value="#{item.mes_liquidado}"></h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{num_fac_contrato}" headerText="num_fac_contrato">
+                        <h:outputText value="#{item.num_fac_contrato}" ></h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{local}" headerText="local">
+                        <h:outputText value="#{item.local}" ></h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{id_propietario}" headerText="id_propietario">
+                        <h:outputText value="#{item.id_propietario}" ></h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{comision}" headerText="comision">
+                        <h:outputText value="#{item.comision}" ></h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{val_fact_canon_arrendamiento}" headerText="val_fact_canon_arrendamiento">
+                        <h:outputText value="#{item.val_fact_canon_arrendamiento}" ></h:outputText>
+                    </p:column>
+                    <p:column filterBy="#{val_comision}" headerText="val_comision">
+                        <h:outputText value="#{item.val_comision}" ></h:outputText>
+                    </p:column>
+                    
+                    <p:column style="width:100px;text-align: center" headerText="Cargar">
+                        <p:commandButton update="@form,tabla" process="@this" actionListener="#{comisionBean.changeMode()}" icon="fa fa-eye Fs16 white" title="View">
+                            <f:setPropertyActionListener value="#{item}" target="#{comisionBean.comision}" />
+                        </p:commandButton>
+                       </p:column> 
+                    
+                    
+                    
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
